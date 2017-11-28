@@ -10,8 +10,11 @@ function format(item, overwrite = {}) {
         else if (Array.isArray(value) && value.length && value[0]._id) {
             item[key] = value.map(format);
         }
-        else if (value._id) {
-            item[key] = format(value);
+        else if (typeof value === 'object') {
+            const entries = Object.entries(value);
+            if (entries.length && entries[0][1]._id) {
+                item[key] = format(value);
+            }
         }
     });
 

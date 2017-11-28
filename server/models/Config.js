@@ -3,7 +3,8 @@ const Config = new keystone.List('Config');
 
 Config.add({
     name: { type: String, required: true, initial: true },
-    isActive: { type: Boolean, default: false }
+    isActive: { type: Boolean, default: false },
+    allowNewMemberSignUp: { type: Boolean, default: true }
 });
 
 Config.schema.pre('save', async function(next) {

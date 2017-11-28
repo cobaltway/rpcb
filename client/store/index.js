@@ -1,20 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import auth from './auth';
+import user from './user';
 import config from './config';
-import users from './users';
-import posts from './posts';
+import modals from './modals';
 
 Vue.use(Vuex);
 
 export default function() {
     return new Vuex.Store({
         modules: {
-            auth: auth(),
+            user: user(),
             config: config(),
-            users: users(),
-            posts: posts()
+            modals: modals()
         }
     });
 }

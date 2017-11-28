@@ -2,13 +2,10 @@ const keystone = require('keystone');
 
 module.exports = async function({userID}, user) {
     let requestedUser = await keystone.request('User', userID);
-    requestedUser = keystone.format(requestedUser, {
-        _id: undefined,
-        canAccessKeystone: undefined
-    });
+    requestedUser = keystone.format(requestedUser);
 
-    if (!user || (!user._id.equals(userID) && !user.canAccessKeystone)) {
-        delete requestedUser.email;
+    if (user && (user._id.equals(userID))) {
+        await requestedUser.populate('characters');
     }
 
     return requestedUser;

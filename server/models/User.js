@@ -6,21 +6,15 @@ const User = new keystone.List('User', {
 });
 
 User.add({
-    name: { type: Types.Text, required: true, index: true },
-    email: { type: Types.Email, initial: true, required: true, index: true },
+    name: { type: Types.Text, required: true, index: true, initial: true },
     password: { type: Types.Password, initial: true },
-    canAccessKeystone: { type: Boolean, initial: false },
-    description: { type: Types.Markdown, required: true, default: {md: ''} },
+    canAccessKeystone: { type: Boolean, default: false },
     registered_at: { type: Types.Datetime, readOnly: true },
-    avatar: {
-        type: Types.File,
-        storage: new keystone.Storage({
-            adapter: keystone.Storage.Adapters.FS,
-            fs: {
-                path: 'upload/avatars',
-                publicPath: '/avatars/'
-            }
-        })
+    characters: { type: Types.Relationship, ref: 'Character', many: true, default: [] },
+    contact: {
+        email: { type: Types.Email },
+        discord: { type: Types.Text },
+        skype: { type: Types.Text }
     }
 });
 
@@ -28,10 +22,12 @@ User.schema.pre('save', function(next) {
     if (!this.registered_at) {
         this.registered_at = new Date();
     }
-    if (!this.description.md) this.description = {md: ''};
+    if (!this.contact.email) {
+        this.contact = { email: '' };
+    }
     next();
 });
 
-User.defaultColumns = 'name, email, registered_at, canAccessKeystone';
+User.defaultColumns = 'name, registered_at, canAccessKeystone';
 
 User.register();

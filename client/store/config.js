@@ -2,7 +2,6 @@ import api from '../api/';
 
 export default function() {
     return {
-        namespaced: true,
         state: {
             config: {}
         },
@@ -18,5 +17,5 @@ export default function() {
                 }).then(config => commit('SET_CONFIG', config));
             }
         }
-    }; 
+    };
 }

@@ -1,10 +1,10 @@
 <template>
-    <div class="modal" :class="{'is-active': show}">
+    <div class="modal is-active" v-if="show">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
                 <slot name="header"></slot>
-                <button class="delete" @click="$emit('close')"></button>
+                <button class="delete" @click="close"></button>
             </header>
 
             <section class="modal-card-body">
@@ -20,7 +20,17 @@
 
 <script>
     export default {
-        props: ['show']
+        props: ['name'],
+        computed: {
+            show() {
+                return this.$store.state.modals[this.name];
+            }
+        },
+        methods: {
+            close() {
+                this.$store.commit('CLOSE', this.name);
+            }
+        }
     };
 </script>
 

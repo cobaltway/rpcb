@@ -1,9 +1,7 @@
-const fs = require('fs');
 const keystone = require('keystone');
-const checkMail = require('./GET_user-check-email-$email');
 const checkUserName = require('./GET_user-check-name-$name');
 
-module.exports = async function({userID, name, password, passwordConfirm, email, description, avatar}, user) {
+module.exports = async function({userID, name, oldPassword, password, passwordConfirm, contact}, user) {
     keystone.isAuth(user);
 
     if (user.slug !== userID && !user.canAccessKeystone) {
@@ -12,34 +10,27 @@ module.exports = async function({userID, name, password, passwordConfirm, email,
 
     const requestedUser = await keystone.request('User', userID);
 
-    if (email !== undefined) {
-        checkMail({email, shouldError: true});
-        requestedUser.email = email;
-    }
-
     if (name !== undefined) {
         checkUserName({name, shouldError: true});
         requestedUser.name = name;
     }
 
+    if (contact !== undefined) {
+        requestedUser.contact = contact;
+    }
+
     if (password !== undefined) {
         keystone.truthy({password});
+
+        const passwordCorrect = await keystone.cbToPromise(user._.password.compare, oldPassword);
+        if (!passwordCorrect) {
+            throw new Error('Wrong password.');
+        }
 
         if (password !== passwordConfirm) {
             throw new Error('Password do not match.');
         }
         requestedUser.password = password;
-    }
-
-    if (description !== undefined) {
-        requestedUser.description.md = description;
-    }
-
-    if (avatar !== undefined) {
-        if (requestedUser.avatar) {
-            fs.unlink('upload/avatars/' + requestedUser.avatar.filename, () => {});
-        }
-        await keystone.cbToPromise(requestedUser._.avatar.upload, avatar);
     }
 
     const updatedUser = await requestedUser.save();

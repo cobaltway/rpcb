@@ -21,6 +21,8 @@ keystone.init({
     env: process.env.NODE_ENV
 });
 
+keystone.set('cloudinary config', keystone.serverConfig.CLOUDINARY);
+
 fs.readdirSync('./models').forEach(m => {
     require('./models/' + m);
 });

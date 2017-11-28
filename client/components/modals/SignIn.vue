@@ -1,7 +1,7 @@
 <template>
-    <modal :show="value" @close="$emit('input', false)">
+    <modal name="SignIn">
         <h1 slot="header" class="modal-card-title">
-            Connexion à Chiboard
+            Connexion à RPCB
         </h1>
 
         <form @submit.prevent="doSignIn" id="signInForm">
@@ -20,8 +20,8 @@
                 </p>
             </div>
             <input type="submit" id="signInSubmit" class="is-hidden" :disabled="!valid">
-            <div class="notification is-danger" :invisible="!error">
-                {{ error }}
+            <div class="help is-danger" :invisible="!error">
+                Mauvaise combinaison utilisateur / mot de passe. 😐
             </div>
         </form>
 
@@ -33,19 +33,18 @@
 </template>
 
 <script>
+    import Form from '../../mixins/Form';
     import Modal from './Modal.vue';
 
     export default {
+        mixins: [Form],
         components: {
             Modal
         },
-        props: ['value'],
         data() {
             return {
                 name: '',
-                password: '',
-                loading: false,
-                error: null
+                password: ''
             };
         },
         computed: {
@@ -56,15 +55,12 @@
         methods: {
             doSignIn() {
                 if (!this.valid) return;
-                this.loading = true;
-                this.$store.dispatch('auth/SIGN_IN', {
-                    name: this.name,
-                    password: this.password
-                }).catch(() => {
-                    this.error = 'Mauvaise combinaison identifiant / mot de passe.';
-                }).then(() => {
-                    this.loading = false;
-                });
+                this.submit(() => {
+                    return this.$store.dispatch('SIGN_IN', {
+                        name: this.name,
+                        password: this.password
+                    });
+                }, () => this.$store.commit('CLOSE', 'SignIn'));
             }
         }
     };

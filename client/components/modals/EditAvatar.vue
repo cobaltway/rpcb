@@ -1,5 +1,5 @@
 <template>
-    <modal :show="value" @close="$emit('input', false)">
+    <modal name="EditAvatar">
         <h1 slot="header" class="modal-card-title">
             Changer son avatar
         </h1>
@@ -10,28 +10,27 @@
             <progress v-if="loading" class="progress" :value="progress" max="100">
                 {{ progress }}%
             </progress>
-            <div v-else-if="error" class="notification is-danger">
-                Quelque-chose s'est mal passé. Réessayez.
+            <div v-else-if="error" class="help is-danger">
+                Wow, euh, quelque-chose n'a pas fonctionné. 😟
             </div>
         </div>
     </modal>
 </template>
 
 <script>
+    import Form from '../../mixins/Form';
     import Modal from './Modal.vue';
-    import FileInput from '../forms/FileInput.vue';
+    import FileInput from '../inputs/FileInput.vue';
 
     export default {
+        mixins: [Form],
         components: {
             Modal,
             FileInput
         },
-        props: ['value'],
         data() {
             return {
                 avatar: null,
-                loading: false,
-                error: null,
                 progress: 0
             };
         },
@@ -42,19 +41,16 @@
                 this.avatar = file;
                 const data = new window.FormData();
                 data.append('avatar', file);
-                this.loading = true;
-                this.$store.dispatch('users/MODIFY_USER', {
-                    data,
-                    slug: this.$route.params.userID,
-                    config: {
-                        onUploadProgress: progressEvent => {
-                            console.log(progressEvent);
-                            this.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                this.submit(() => {
+                    return this.$store.dispatch('MODIFY_USER', {
+                        data,
+                        config: {
+                            onUploadProgress: progressEvent => {
+                                this.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                            }
                         }
-                    }
-                }).then(() => this.$emit('input', false))
-                .catch(err => (this.error = err))
-                .then(() => (this.loading = false));
+                    }).then(() => this.$store.commit('OPEN', 'EditAvatar'));
+                });
             }
         }
     };

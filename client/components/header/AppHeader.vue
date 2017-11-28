@@ -8,22 +8,21 @@
             </div>
 
             <div class="nav-center nav-menu">
-                <router-link class="nav-item"
-                    v-for="tag in frontPageTags" :key="tag"
-                    :to="{name: 'tag', params: {tagID: tag}}">
-                    <aw-icon class="xs-hide" name="hashtag" scale="0.8"></aw-icon>
-                    <b class="sm-hide md-hide lg-hide"> # </b>
-                    &nbsp; {{ tag }}
+                <a class="nav-item" href="https://discord.gg/YEVG85j" target="_blank">
+                    <aw-icon name="discord" scale="1.3"></aw-icon>
+                    <span class="xs-hide">&nbsp; Rejoindre Discord </span>
+                </a>
+                <router-link class="nav-item" :to="{name: 'myChars'}">
+                    <aw-icon name="users"></aw-icon>
+                    <span class="xs-hide">&nbsp; Mes personnages </span>
                 </router-link>
+                <a class="nav-item" @click="$store.commit('OPEN', 'NewCharacter')">
+                    <aw-icon name="plus-square"></aw-icon>
+                    <span class="xs-hide">&nbsp; Nouveau personnage </span>
+                </a>
             </div>
 
             <div class="nav-right">
-                <router-link class="nav-item" to="/search">
-                    <aw-icon name="search"></aw-icon>
-                </router-link>
-                <router-link v-if="isAuth" class="nav-item" to="/post">
-                    <aw-icon name="plus"></aw-icon>
-                </router-link>
                 <user-auth class="nav-item"></user-auth>
             </div>
         </div>
@@ -31,31 +30,16 @@
 </template>
 
 <script>
+    import User from '../../mixins/User';
     import UserAuth from './UserAuth.vue';
-    import 'vue-awesome/icons/hashtag';
-    import 'vue-awesome/icons/search';
-    import 'vue-awesome/icons/plus';
     import 'vue-awesome/icons/home';
+    import 'vue-awesome/icons/plus-square';
+    import 'vue-awesome/icons/users';
 
     export default {
+        mixins: [User],
         components: {
             UserAuth
-        },
-        data() {
-            return {
-                activeIndex: '1'
-            };
-        },
-        computed: {
-            isAuth() {
-                return this.$store.state.auth.isAuth;
-            },
-            frontPageTags() {
-                return this.$store.state.config.config.frontPageTags;
-            }
-        },
-        asyncData(store) {
-            return store.dispatch('config/FETCH_CONFIG');
         }
     };
 </script>

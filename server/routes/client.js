@@ -2,7 +2,7 @@ const keystone = require('keystone');
 const path = require('path');
 const fs = require('fs');
 const vueSSR = require('vue-server-renderer');
-const routes = ['/', '/user/:userID'];
+const routes = ['/', '/me', '/myChars'];
 
 function createRenderer() {
     return vueSSR.createBundleRenderer(require('../client/bundle.json'), {
@@ -31,10 +31,7 @@ module.exports = function(app) {
         try {
             stream = renderer.renderToStream({
                 url: req.originalUrl,
-                activeUser: req.user ? keystone.format(req.user, {
-                    posts: req.user.posts.length,
-                    favorites: req.user.favorites.length
-                }) : false
+                activeUser: req.user ? keystone.format(req.user) : false
             });
 
             stream.on('error', err => {

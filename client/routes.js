@@ -11,12 +11,22 @@ export default () => {
             {
                 name: 'home',
                 path: '/',
-                component: resolve => require(['./pages/FrontPage.vue'], resolve)
+                component: resolve => require(['./pages/Home.vue'], resolve)
             },
             {
-                name: 'user',
-                path: '/user/:userID',
-                component: resolve => require(['./pages/User.vue'], resolve)
+                name: 'myChars',
+                path: '/myChars',
+                component: resolve => require(['./pages/MyChars.vue'], resolve)
+            },
+            {
+                name: 'me',
+                path: '/me',
+                component: resolve => require(['./pages/Me.vue'], resolve)
+            },
+            {
+                name: 'newChar',
+                path: '/newChar',
+                component: resolve => require(['./pages/MyChars.vue'], resolve)
             }
         ]
     });

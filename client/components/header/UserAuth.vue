@@ -1,10 +1,9 @@
 <template>
     <div class="field has-addons">
         <template v-if="isAuth">
-            <router-link :to="{name: 'user', params: {userID: activeUser.slug}}" class="control">
+            <router-link :to="{name: 'me'}" class="control">
                 <span class="button is-white">
-                    <img :src="activeUser.avatar || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTctfQYPcfoA_S5ZxyOYRD0kUCqkva4U5jHB791wtr9qPTe2WS44A'" class="image is-24x24">
-                    <span class="xs-hide"> {{ activeUser.name }} </span>
+                    <span> {{ user.name }} </span>
                 </span>
             </router-link>
 
@@ -17,16 +16,13 @@
 
         <template v-else>
             <label class="control">
-                <button class="button is-white" @click="signUp = true">
+                <button class="button is-white" @click="$store.commit('OPEN', 'SignUp')">
                     S'inscrire
                 </button>
             </label>
 
-            <sign-up v-model="signUp"></sign-up>
-            <sign-in v-model="signIn"></sign-in>
-
             <label class="control">
-                <button class="button is-white" @click="signIn = true">
+                <button class="button is-white" @click="$store.commit('OPEN', 'SignIn')">
                     <aw-icon name="power-off"></aw-icon>
                 </button>
             </label>
@@ -35,41 +31,14 @@
 </template>
 
 <script>
-    import SignUp from '../modals/SignUp.vue';
-    import SignIn from '../modals/SignIn.vue';
+    import User from '../../mixins/User';
     import 'vue-awesome/icons/power-off';
 
     export default {
-        components: {
-            SignUp,
-            SignIn
-        },
-        data() {
-            return {
-                signUp: false,
-                signIn: false
-            };
-        },
-        computed: {
-            isAuth() {
-                return this.$store.state.auth.isAuth;
-            },
-            activeUser() {
-                return this.$store.state.auth.activeUser;
-            }
-        },
+        mixins: [User],
         methods: {
             doSignOut() {
-                this.$store.dispatch('auth/SIGN_OUT');
-            }
-        },
-        watch: {
-            isAuth(value) {
-                if (value === false) {
-                    this.signUp = false;
-                    this.signIn = false;
-                    document.activeElement.blur();
-                }
+                this.$store.dispatch('SIGN_OUT').then(() => this.$router.push({name: 'home'}));
             }
         }
     };

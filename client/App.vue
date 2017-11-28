@@ -4,15 +4,18 @@
         <div class="sub-header-content">
             <slot></slot>
         </div>
+        <all-modals></all-modals>
     </section>
 </template>
 
 <script>
     import AppHeader from './components/header/AppHeader.vue';
+    import AllModals from './components/modals/AllModals.vue';
 
     export default {
         components: {
-            AppHeader
+            AppHeader,
+            AllModals
         }
     };
 </script>

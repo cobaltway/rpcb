@@ -14,8 +14,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'request-api': './request-api-server.js',
-            'vue-masonry': './ignore-plugin.js'
+            'request-api': './request-api-server.js'
         }
     },
     module: {

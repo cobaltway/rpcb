@@ -2,27 +2,28 @@ import api from '../api/';
 
 export default function() {
     return {
-        namespaced: true,
         state: {
-            isAuth: false,
-            activeUser: {}
+            user: {}
+        },
+        getters: {
+            isAuth(state) {
+                return !!Object.keys(state.user).length;
+            }
         },
         mutations: {
-            SET_ACTIVE_USER(state, user) {
-                state.isAuth = true;
-                state.activeUser = Object.assign({}, user);
+            SET_USER(state, user) {
+                state.user = Object.assign({}, user);
             },
-            REMOVE_ACTIVE_USER(state) {
-                state.isAuth = false;
-                state.activeUser = {};
+            REMOVE_USER(state) {
+                state.user = {};
             }
         },
         actions: {
-            FETCH_ACTIVE_USER({commit}, {slug}) {
+            FETCH_USER({commit}, {slug}) {
                 return api({
                     path: 'GET_user-$userID',
                     params: { userID: slug }
-                }).then(user => commit('SET_ACTIVE_USER', user));
+                }).then(user => commit('SET_USER', user));
             },
             SIGN_IN({commit}, {name, password}) {
                 return api({
@@ -31,24 +32,33 @@ export default function() {
                         name: name,
                         password: password
                     }
-                }).then(user => commit('SET_ACTIVE_USER', user));
+                }).then(user => commit('SET_USER', user));
+            },
+            MODIFY_USER({commit, state}, {data, config}) {
+                return api({
+                    path: 'PATCH_user-$userID',
+                    params: { userID: state.user.slug },
+                    data,
+                    config
+                }).then(user => {
+                    commit('SET_USER', user);
+                });
             },
             SIGN_OUT({commit}) {
                 return api({
                     path: 'POST_signout'
-                }).then(() => commit('REMOVE_ACTIVE_USER'));
+                }).then(() => commit('REMOVE_USER'));
             },
-            SIGN_UP({dispatch}, {name, email, password, passwordConfirm}) {
+            SIGN_UP({dispatch}, {name, password, passwordConfirm}) {
                 return api({
                     path: 'POST_user',
                     data: {
                         name: name,
-                        email: email,
                         password: password,
                         passwordConfirm: passwordConfirm
                     }
                 }).then(() => dispatch('SIGN_IN', {name, password}));
             }
         }
-    }; 
+    };
 }
