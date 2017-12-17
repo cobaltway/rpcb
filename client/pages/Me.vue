@@ -55,7 +55,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../styles/variables.scss";
+    @import "../assets/css/variables.scss";
 
     figure {
         display: inline-block;

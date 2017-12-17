@@ -1,10 +1,7 @@
 const resources = require('./resources');
-const client = require('./client.js');
+const nuxt = require('./nuxt');
 
 module.exports = function(app) {
     resources(app);
-    client(app);
-    app.all('*', (req, res) => {
-        res.status(404).send('');
-    });
+    nuxt(app);
 };

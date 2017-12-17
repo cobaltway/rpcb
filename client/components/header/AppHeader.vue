@@ -45,7 +45,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "../../styles/variables.scss";
+    @import "../../assets/css/variables.scss";
 
     nav {
         border-bottom: 1px dashed $grey-light;

@@ -1,22 +1,14 @@
 <template>
     <div class="section">
         <div class="container">
-            <h1 class="title">
-                Mes personnages
-            </h1>
+            <h1 class="title"> Mes personnages </h1>
 
             <table class="table" v-if="characters.length">
                 <thead>
                     <tr>
-                        <th>
-                            Personnage
-                        </th>
-                        <th>
-                            Public
-                        </th>
-                        <th>
-                            Actions
-                        </th>
+                        <th> Personnage </th>
+                        <th> Public </th>
+                        <th> Actions </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,10 +16,8 @@
                         <td>
                             {{ char.name }}
                         </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
+                        <td> </td>
+                        <td> </td>
                     </tr>
                 </tbody>
             </table>
