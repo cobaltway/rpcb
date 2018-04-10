@@ -17,7 +17,11 @@ module.exports = {
         '~/assets/css/transitions.scss',
         '~/assets/css/variables.scss'
     ],
-    plugins: ['~/plugins/element', '~/plugins/vue-i18n', '~/plugins/getUser'],
+    plugins: [
+        '~/plugins/element',
+        '~/plugins/vue-i18n',
+        '~/plugins/getUser'
+    ],
     srcDir: 'client/',
     build: { vendor: ['axios'] },
     modules: [

@@ -24,13 +24,9 @@ module.exports = function() {
 
     keystone.set('cloudinary config', keystone.serverConfig.CLOUDINARY);
 
-    fs.readdirSync('./models').forEach(m => {
-        require('./models/' + m);
-    });
+    fs.readdirSync('./models').forEach(m => require('./models/' + m));
 
-    fs.readdirSync('./libs/utils').forEach(u => {
-        keystone[u.replace('.js', '')] = require('./libs/utils/' + u);
-    });
+    fs.readdirSync('./libs/utils').forEach(u => (keystone[u.replace('.js', '')] = require('./libs/utils/' + u)));
 
     keystone.set('routes', require('./routes'));
 
