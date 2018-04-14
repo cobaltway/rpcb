@@ -1,3 +1,10 @@
 @import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
 
-$speed: 0.3s;
+$primary: #E24B2C;
+$info: #3B5998;
+$link: #E24B2C;
+$speed: 300ms;
+
+@import "~bulma";
+@import "~buefy/src/scss/buefy";

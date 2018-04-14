@@ -27,27 +27,17 @@
 
 <script>
     import Form from '../../mixins/Form';
-    import Modal from './Modal.vue';
 
     export default {
-        mixins: [Form],
-        components: {
-            Modal
-        },
-        data() {
-            return {
-                name: ''
-            };
-        },
-        methods: {
-            createCharacter() {
-                if (!this.name) return;
-                this.submit(() => {
-                    return this.$store.dispatch('character/CREATE_CHARACTER', {
-                        name: this.name
-                    });
-                });
-            }
+      mixins: [Form],
+      data() {
+        return { name: '' };
+      },
+      methods: {
+        createCharacter() {
+          if (!this.name) return;
+          this.submit(() => this.$store.dispatch('character/CREATE_CHARACTER', { name: this.name }));
         }
+      }
     };
 </script>

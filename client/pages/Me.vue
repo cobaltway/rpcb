@@ -32,25 +32,24 @@
 </template>
 
 <script>
-    import User from '../mixins/User';
     import EditAvatar from '../components/modals/EditAvatar.vue';
     import ContactInfo from '../components/forms/ContactInfo.vue';
     import ChangePassword from '../components/forms/ChangePassword.vue';
-    import 'vue-awesome/icons/user-circle';
-    import 'vue-awesome/icons/pencil';
 
     export default {
-        mixins: [User],
-        components: {
-            EditAvatar,
-            ContactInfo,
-            ChangePassword
-        },
-        data() {
-            return {
-                changeAvatar: false
-            };
+      components: {
+        EditAvatar,
+        ContactInfo,
+        ChangePassword
+      },
+      data() {
+        return { changeAvatar: false };
+      },
+      computed: {
+        user() {
+          return this.$store.state.user;
         }
+      }
     };
 </script>
 

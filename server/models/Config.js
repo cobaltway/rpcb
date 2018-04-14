@@ -2,20 +2,20 @@ const keystone = require('keystone');
 const Config = new keystone.List('Config');
 
 Config.add({
-    name: { type: String, required: true, initial: true },
-    isActive: { type: Boolean, default: false },
-    allowNewMemberSignUp: { type: Boolean, default: true }
+  name: { type: String, required: true, initial: true },
+  isActive: { type: Boolean, default: false },
+  allowNewMemberSignUp: { type: Boolean, default: true }
 });
 
-Config.schema.pre('save', async function(next) {
-    if (this.isActive) {
-        const lastActiveConfig = await keystone.config(true);
-        if (lastActiveConfig && !lastActiveConfig.equals(this)) {
-            lastActiveConfig.isActive = false;
-            await lastActiveConfig.save();
-        }
+Config.schema.pre('save', async function (next) {
+  if (this.isActive) {
+    const lastActiveConfig = await keystone.config(true);
+    if (lastActiveConfig && !lastActiveConfig.equals(this)) {
+      lastActiveConfig.isActive = false;
+      await lastActiveConfig.save();
     }
-    next();
+  }
+  next();
 });
 
 Config.defaultColumns = 'name, isActive';

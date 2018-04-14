@@ -21,9 +21,7 @@
 </template>
 
 <script>
-    export default {
-        props: ['loading', 'success', 'error']
-    };
+    export default { props: ['loading', 'success', 'error'] };
 </script>
 
 <style scoped>

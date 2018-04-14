@@ -12,47 +12,41 @@
 </template>
 
 <script>
-    import User from '../../mixins/User';
     import Form from '../../mixins/Form';
     import HorizontalField from '../inputs/HorizontalField.vue';
-    import PasswordConfirm from '../inputs/PasswordConfirm.vue';
     import HorizontalSubmit from '../inputs/HorizontalSubmit.vue';
-    import 'vue-awesome/icons/key';
 
     export default {
-        mixins: [User, Form],
-        components: {
-            HorizontalField,
-            PasswordConfirm,
-            HorizontalSubmit
+      mixins: [Form],
+      components: {
+        HorizontalField,
+        HorizontalSubmit
+      },
+      data() {
+        return {
+          oldPassword: '',
+          passwords: ['', '']
+        };
+      },
+      computed: {
+        valid() {
+          return this.oldPassword && this.passwordsMatch;
         },
-        data() {
-            return {
-                oldPassword: '',
-                passwords: ['', '']
-            };
-        },
-        computed: {
-            valid() {
-                return this.oldPassword && this.passwordsMatch;
-            },
-            passwordsMatch() {
-                return this.passwords[0] && this.passwords[1] && this.passwords[0] === this.passwords[1];
-            }
-        },
-        methods: {
-            changePassword() {
-                if (!this.valid) return;
-                this.submit(() => {
-                    return this.$store.dispatch('MODIFY_USER', {
-                        data: {
-                            oldPassword: this.oldPassword,
-                            password: this.passwords[0],
-                            passwordConfirm: this.passwords[1]
-                        }
-                    });
-                });
-            }
+        passwordsMatch() {
+          return this.passwords[0] && this.passwords[1] && this.passwords[0] === this.passwords[1];
         }
+      },
+      methods: {
+        changePassword() {
+          if (!this.valid) return;
+          this.submit(() => this.$store.dispatch('MODIFY_USER', {
+            data: {
+              oldPassword: this.oldPassword,
+              password: this.passwords[0],
+              passwordConfirm: this.passwords[1]
+            }
+          }));
+        }
+      }
     };
 </script>

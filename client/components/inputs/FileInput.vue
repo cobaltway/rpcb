@@ -13,24 +13,22 @@
 
 <script>
     export default {
-        props: ['value'],
-        data() {
-            return {
-                preview: null
-            };
-        },
-        watch: {
-            value(file) {
-                if (file) {
-                    const reader = new window.FileReader();
-                    reader.onload = e => (this.preview = e.target.result);
-                    reader.readAsDataURL(file);
-                }
-                else {
-                    this.preview = null;
-                }
-            }
+      props: ['value'],
+      data() {
+        return { preview: null };
+      },
+      watch: {
+        value(file) {
+          if (file) {
+            const reader = new window.FileReader();
+            reader.onload = e => (this.preview = e.target.result);
+            reader.readAsDataURL(file);
+          }
+          else {
+            this.preview = null;
+          }
         }
+      }
     };
 </script>
 

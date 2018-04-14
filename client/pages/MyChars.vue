@@ -33,16 +33,16 @@
 </template>
 
 <script>
-    import User from '../mixins/User';
-
     export default {
-        mixins: [User],
-        computed: {
-            characters() {
-                console.log(this.user, this.user.user, this.user.characters);
-                return this.user.characters;
-            }
+      computed: {
+        user() {
+          return this.$store.state.user;
+        },
+        characters() {
+          console.log(this.user, this.user.user, this.user.characters);
+          return this.user.characters;
         }
+      }
     };
 </script>
 

@@ -19,7 +19,5 @@
 </template>
 
 <script>
-    export default {
-        props: ['value', 'name', 'placeholder', 'type']
-    };
+    export default { props: ['value', 'name', 'placeholder', 'type'] };
 </script>

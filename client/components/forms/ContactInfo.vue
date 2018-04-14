@@ -17,28 +17,25 @@
 </template>
 
 <script>
-    import User from '../../mixins/User';
     import Form from '../../mixins/Form';
     import HorizontalField from '../inputs/HorizontalField.vue';
     import HorizontalSubmit from '../inputs/HorizontalSubmit.vue';
-    import 'vue-awesome/icons/envelope';
-    import 'vue-awesome/icons/skype';
-    import 'vue-awesome/icons/paper-plane';
 
     export default {
-        mixins: [User, Form],
-        components: {
-            HorizontalField,
-            HorizontalSubmit
-        },
-        methods: {
-            updateContact() {
-                this.submit(() => {
-                    return this.$store.dispatch('MODIFY_USER', {
-                        data: { contact: this.user.contact }
-                    });
-                });
-            }
+      mixins: [Form],
+      components: {
+        HorizontalField,
+        HorizontalSubmit
+      },
+      computed: {
+        user() {
+          return this.$store.state.user;
         }
+      },
+      methods: {
+        updateContact() {
+          this.submit(() => this.$store.dispatch('MODIFY_USER', { data: { contact: this.user.contact } }));
+        }
+      }
     };
 </script>

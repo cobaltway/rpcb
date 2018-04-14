@@ -1,7 +1,11 @@
+const cors = require('cors');
 const resources = require('./resources');
-const nuxt = require('./nuxt');
 
-module.exports = function(app) {
-    resources(app);
-    nuxt(app);
+module.exports = function (app) {
+  app.use(cors({
+    origin: true,
+    optionsSuccessStatus: 200,
+    credentials: true
+  }));
+  resources(app);
 };

@@ -19,39 +19,33 @@
 
 <script>
     import Form from '../../mixins/Form';
-    import Modal from './Modal.vue';
     import FileInput from '../inputs/FileInput.vue';
 
     export default {
-        mixins: [Form],
-        components: {
-            Modal,
-            FileInput
-        },
-        data() {
-            return {
-                avatar: null,
-                progress: 0
-            };
-        },
-        methods: {
-            changeAvatar(file) {
-                if (Array.isArray(file)) file = file[0];
-                if (!file) return;
-                this.avatar = file;
-                const data = new window.FormData();
-                data.append('avatar', file);
-                this.submit(() => {
-                    return this.$store.dispatch('MODIFY_USER', {
-                        data,
-                        config: {
-                            onUploadProgress: progressEvent => {
-                                this.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                            }
-                        }
-                    }).then(() => this.$store.commit('OPEN', 'EditAvatar'));
-                });
+      mixins: [Form],
+      components: { FileInput },
+      data() {
+        return {
+          avatar: null,
+          progress: 0
+        };
+      },
+      methods: {
+        changeAvatar(file) {
+          if (Array.isArray(file)) file = file[0];
+          if (!file) return;
+          this.avatar = file;
+          const data = new window.FormData();
+          data.append('avatar', file);
+          this.submit(() => this.$store.dispatch('MODIFY_USER', {
+            data,
+            config: {
+              onUploadProgress: (progressEvent) => {
+                this.progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+              }
             }
+          }).then(() => this.$store.commit('OPEN', 'EditAvatar')));
         }
+      }
     };
 </script>

@@ -3,3 +3,5 @@ node_modules
 server/upload
 server/public
 server/client
+.nuxt
+yarn-error.log
