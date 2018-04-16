@@ -1,8 +1,10 @@
 <template>
-  <form @submit.prevent="doSignUp">
+  <form @submit.prevent="doRegister">
     <username-input v-model="name" :valid.sync="validName"/>
 
-    <b-field :label="$t('PASSWORD')" message="&nbsp" horizontal>
+    <input style="display:none" type="password" name="fakepasswordremembered"/>
+
+    <b-field :label="$t('PASSWORD')" message="&nbsp;" horizontal>
       <b-input type="password" :placeholder="$t('SOMETHING_SECRET')" icon="key" v-model="password" autocomplete="new-password" password-reveal/>
     </b-field>
 
@@ -32,9 +34,9 @@
       }
     },
     methods: {
-      doSignUp() {
+      doRegister() {
         if (!this.valid) return;
-        this.doRequest(() => this.$store.dispatch('SIGN_UP', {
+        this.doRequest(() => this.$store.dispatch('REGISTER', {
           name: this.name,
           password: this.password
         }));

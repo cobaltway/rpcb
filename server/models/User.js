@@ -9,7 +9,7 @@ User.add({
   password: { type: Types.Password, initial: true },
   canAccessKeystone: { type: Boolean, default: false },
   registeredAt: { type: Types.Datetime, readOnly: true },
-  lastConnexion: { type: Types.Datetime },
+  lastConnection: { type: Types.Datetime },
   characters: { type: Types.Relationship, ref: 'Character', many: true, default: [] },
   customKinks: { type: Types.Relationship, ref: 'Kink', many: true, default: [] },
   contact: {
